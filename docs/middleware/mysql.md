@@ -255,7 +255,7 @@ ON 子句中的过滤条件对于内连接和外连接是不同的，对于内�
 
 ## MySQL 常用命令
 ### MySQL 连接数
-```
+```bash
 # 静态查看
 SHOW PROCESSLIST;  
 SHOW FULL PROCESSLIST;  
@@ -278,7 +278,7 @@ show status like 'Threads%';
 ```
 
 ### 基本命令
-```
+```bash
 # 查看正在运行中的命令
 select * from information_schema.`PROCESSLIST` where info is not null ORDER BY time desc;
 
