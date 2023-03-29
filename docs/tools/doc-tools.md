@@ -13,7 +13,7 @@
 1. 把项目推送到 github
 2. 在`Settings/Pages`里设置`Branch`为`main`，`Custom domain`为自己的域名（没有可以忽略，使用github域名）
 3. 在域名解析里配置`CNAME`，解析值为`username.github.io`
-4. 更新文档只需要推送到远程即可
+4. 更新文档只需要推送到远程即可（没生效可能是有缓存）
 
 ### 方案：
 > 推荐 docsify
