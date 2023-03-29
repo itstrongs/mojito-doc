@@ -292,3 +292,120 @@ JVM 调优是指调节 JVM 参数，即对垃圾收集器和内存分配的调�
 ](https://juejin.cn/post/6844903953415536654)
 
 * [JVM 面试题，安排上了！！！](https://juejin.cn/post/7016526088851423268)
+
+## JVM 参数
+
+## 基本参数
+```bash
+# 最大堆大小
+-Xmx
+# 年轻代大小
+-Xmn
+# 每个线程的堆栈大小
+-Xss
+# 元空间大小
+-XX:MetaspaceSize=
+# 最大元空间大小
+-XX:MaxMetaspaceSize=
+# 非堆区初始大小
+-XX:PermSize=
+# JVM 发生 OOM 时自动生成 dump 文件
+-XX:+HeapDumpOnOutOfMemoryError
+# dump 文件路径
+-XX:HeapDumpPath=
+# 开启对象压缩指针，提高内存利用率
+-XX:+UseCompressedOops
+# 开启类指针压缩，需要和对象指针压缩一起开启
+-XX:+UseCompressedClassPointers
+# 对象大小阈值参数，默认为 0
+-XX:PretenureSizeThreshold
+# 指定大于该设置值的对象直接在老年代分配，只对Serial和ParNew两款新生代收集器有效
+-XX：PretenureSizeThreshold
+# 对象晋升老年代的年龄阈值
+-XX：MaxTenuringThreshold
+# 是否允许担保失败，通常打开，避免Full GC过于频繁，JDK 6 Update 24后不生效
+-XX：HandlePromotionFailure
+```
+
+## GC 收集器参数
+
+```bash
+# Serial + Serial Old，最早的收集器组合
+-XX:+UseSerialGC
+# ParNew + Serial Old
+-XX:+UseParNewGC
+# ParNew + CMS，CMS 是针对老年代使用最多的收集器
+-XX:+UseConcMarkSweepGC
+# Parallel Scavenge + Parallel Old，jdk 1.8 默认收集器
+-XX:+UseParallelGC
+# Parallel Scavenge + Parallel Old 组合
+-XX:+UseParallelOldGC
+# ParNew + CMS，经常在实践中使用的组合
+-XX:+UseConcMarkSweepGC
+
+## Parallel Scavenge
+# 控制最大垃圾收集停顿时间，允许的值是一个大于0的毫秒数，收集器将尽力保证内存回收花费的时间不超过用户设定值
+-XX:MaxGCPauseMillis
+# 设置吞吐量大小，大于0小于100的整数，也就是垃圾收集时间占总时间的比率，相当于吞吐量的倒数
+-XX:GCTimeRatio
+# 虚拟机会根据当前系统的运行情况收集性能监控信息，动态调整这些参数以提供最合适的停顿时间或者最大的吞吐量。这种调节方式称为垃圾收集的自适应的调节策略
+-XX:+UseAdaptiveSizePolicy
+
+## CMS
+# 启用 CMS
+-XX:+UseConcMarkSweepGC
+# CMS 的触发百分比，JDK5 默认：68%，JDK 6 默认：92%
+-XX:CMSInitiatingOccupancyFraction
+# 用于在CMS收集器不得不进行Full GC时开启内存碎片的合并整理过程，默认开启，此参数从JDK 9开始废弃
+-XX:+UseCMS-CompactAtFullCollection
+# 要求CMS收集器在执行过若干次（数量由参数值决定）不整理空间的Full GC之后，下一次进入Full GC前会先进行碎片整理（默认值为0，表示每次进入Full GC时都进行碎片整理，此参数从JDK 9开始废弃）
+-XX:CMSFullGCsBefore-Compaction
+
+## G1
+# 设置 Region 的大小，取值范围为 1MB ～ 32MB，且应为2的N次幂
+-XX:G1HeapRegionSize
+# 设定允许的收集停顿时间，默认两百毫秒，一两百毫秒或者两三百毫秒会是比较合理
+-XX：MaxGCPauseMillis
+```
+
+## JVM 日志参数
+
+```bash
+## 查看GC基本信息
+# JDK 9之前使用
+-verbose:gc  # 稳定版本
+-XX:+PrintGC # 非稳定版本
+# JDK 9后使用
+-Xlog:gc GCTest
+
+## 查看GC详细信息
+# JDK 9之前使用
+-XX:+PrintGCDetails
+# JDK 9之后使用
+-X-log:gc*
+
+## 查看GC前后的堆、方法区可用容量变化
+# 在JDK 9之前使用
+-XX:+PrintHeapAtGC
+# JDK 9之后使用
+-Xlog:gc+heap=debug
+
+## 查看GC过程中用户线程并发时间以及停顿的时间
+# 在JDK 9之前使用
+-XX：+Print-GCApplicationConcurrentTime #以及
+-XX：+PrintGCApplicationStoppedTime
+# JDK 9之后使用
+-Xlog：safepoint
+
+## 查看收集器Ergonomics机制（自动设置堆空间各分代区域大小、收集目标等内容，从Parallel收集器开始支持）自动调节的相关信息。
+# 在JDK 9之前使用
+-XX：+PrintAdaptive-SizePolicy
+# JDK 9之后使用
+-Xlog：gc+ergo*=trace
+
+## 查看熬过收集后剩余对象的年龄分布信息
+# 在JDK 9前使用
+-XX：+PrintTenuring-Distribution
+# JDK 9之后使用
+-Xlog：gc+age=trace
+```
