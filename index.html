@@ -12,11 +12,26 @@
   <div id="app"></div>
   <script>
     window.$docsify = {
-      name: '',
-      repo: ''
+      name: '<b>知识体系</b>',
+      repo: '',
+      loadSidebar: true,
+      loadNavbar: true,
+      subMaxLevel: 99,
+      search: {
+        noData: {
+          '/': '没有结果'
+        },
+        paths: 'auto',
+        placeholder: {
+          '/': '搜索'
+        }
+      },
     }
   </script>
   <!-- Docsify v4 -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify@latest/lib/plugins/search.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
 </body>
 </html>
