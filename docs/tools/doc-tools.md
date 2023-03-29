@@ -9,6 +9,12 @@
 1. 静态托管github，不需要购买服务器，不需要搭建数据库，不需要懂前后端
 2. 支持Markdown、样式丰富
 
+### Github Pages 托管
+1. 把项目推送到 github
+2. 在`Settings/Pages`里设置`Branch`为`main`，`Custom domain`为自己的域名（没有可以忽略，使用github域名）
+3. 在域名解析里配置`CNAME`，解析值为`username.github.io`
+4. 更新文档只需要推送到远程即可
+
 ### 方案：
 > 推荐 docsify
 
